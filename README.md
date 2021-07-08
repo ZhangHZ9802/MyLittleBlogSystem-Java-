@@ -5,6 +5,8 @@ An LittleBlogSystem realized by java(SpringBoot)
 首先启动provider-mysql，再启动provider-redis，最后启动客户端client即可正常运行。
 访问localhost:8091即可进入博客。
 
+关于项目的介绍请看我的CSDN博文：
+
 数据库的创建代码如下：
 ```sql
 CREATE DATABASE zhz_blog;
