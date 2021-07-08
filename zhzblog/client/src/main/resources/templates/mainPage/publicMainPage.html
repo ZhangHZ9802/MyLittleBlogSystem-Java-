@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>看看大家的博客</title>
+</head>
+<style>
+    body{
+        text-align: center;
+        background-image: url("/images/grad.jpg");
+    }
+</style>
+<body>
+
+<h2><strong>看看有什么喜欢的博客吧：</strong></h2>
+
+<ol>
+    <li th:each="article:${articles}">
+        <form action="/zhz/toArticle" method="get">
+            标题：<input name="articleTitle" type="text" th:value="${article.article_name}" th:colspan="10" readonly th:border="0">
+            作者：<input name="articleOwner" type="text" th:value="${article.article_owner}" th:colspan="5" readonly th:border="0">
+            <input type="text" name="articleID" th:value="${article.article_id}" hidden>
+            <input type="submit" value="转到文章">
+        </form>
+    </li>
+</ol>
+</body>
+</html>

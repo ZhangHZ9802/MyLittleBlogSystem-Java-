@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${article.article_owner}">的博文</title>
+</head>
+<style>
+    article{
+        text-align: center;
+    }
+    body{
+        background-image: url("/images/ice3.jpg");
+    }
+</style>
+<body>
+<article>
+    <!--判断文章是否属于该用户-->
+    <div th:if="${userAccount} eq ${article.article_owner}">
+        <form action="/zhz/editArticle">
+            <input type="text" name="articleId" th:value="${article.article_id}" hidden>
+            <input type="submit" value="修改该文章">
+        </form>
+        <form action="/zhz/deleteArticle">
+            <input type="text" name="articleId" th:value="${article.article_id}" hidden>
+            <input type="submit" value="删除该文章">
+        </form>
+    </div>
+    <h2>
+        <div th:text="${article.article_name}"></div>
+    </h2>
+    <h4>作者：<strong th:text="${article.article_owner}"></strong></h4>
+
+    <!--该标签<pre>可以有格式的输出对应的字符串-->
+    <textarea name="newContent" rows="50" cols="80" th:utext="${article.article_content}" readonly></textarea>
+</article>
+
+<h3>如果你喜欢请给该作品点赞</h3>
+<form action="/zhz/likeArticle" method="post">
+    <input type="image" th:src="@{/images/like.jpg}" height="50px" width="50px"
+           name=like title="点赞或取消" onclick="this.form.submit()">
+    <input name="articleId" th:value="${article.article_id}" hidden>
+</form>
+<h3>已点赞数：<strong th:text="${countOfLikes}"></strong></h3>
+
+<h3>看看大家的精彩评论吧</h3>
+<ol>
+    <li th:each="ac:${articleComments}">
+        <strong th:text="${ac.comment_owner}" th:colspan="10"></strong>
+        评论到：<textarea name="articleCommentContents" th:text="${ac.comment_contents}" style="overflow: visible"
+                      readonly></textarea>
+        <div th:if="${userAccount} eq ${ac.comment_owner}">
+            <!--当前用户的评论-->
+            <form action="/zhz/deleteArticleComments" method="post">
+                <input name="commentID" th:value="${ac.comment_id}" hidden>
+                <input name="articleID" th:value="${article.article_id}" hidden>
+                <input type="submit" value="删除评论" name="editComment">
+            </form>
+            <form action="/zhz/editArticleComment" method="post">
+                <strong>如果需要修评论，则修改后点击提交</strong><br/>
+                <textarea name="newArticleCommentContents" th:utext="${ac.comment_contents}"
+                          style="overflow: visible"></textarea>
+                <input name="commentID" th:value="${ac.comment_id}" hidden>
+                <input name="articleID" th:value="${article.article_id}" hidden>
+                <input type="submit" value="修改评论" name="editComment">
+            </form>
+        </div>
+    </li>
+</ol>
+
+<h3>写下您的评论</h3>
+<form action="/zhz/writeArticleComment" method="post">
+    <textarea name="articleComments" placeholder="请在此输入您的精彩评论"></textarea>
+    <input name="articleId" th:value="${article.article_id}" hidden>
+    <input type="submit" value="提交评论">
+</form>
+
+</body>
+</html>

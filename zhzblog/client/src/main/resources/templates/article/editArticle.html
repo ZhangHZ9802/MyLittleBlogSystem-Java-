@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改您的文章</title>
+</head>
+<style>
+    body{
+        text-align: center;
+    }
+</style>
+<body>
+<img src="/images/ice2.jpg" style="float: left" height="30%" width="30%">
+<img src="/images/ice2.jpg" style="float: right" height="30%" width="30%">
+<div>
+    <h3>
+        欢迎用户：<strong th:text="${userAccount}"></strong>请尽情修改您的博客
+    </h3>
+</div>
+
+<form action="/zhz/editArticle" method="post">
+    <strong th:text="${callback}"></strong><br/>
+    <input type="text" name="articleId" th:value="${articleId}" hidden>
+    <strong> 标题：</strong>
+    <input type="text" name="newArticleTitle" style="width: 400px" th:value="${articleTitle}" required><br/>
+    <!--th:utext可以在textarea中显示大段有格式文字-->
+    <textarea name="newContent" rows="50" cols="80" th:utext="${content}"></textarea>
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>

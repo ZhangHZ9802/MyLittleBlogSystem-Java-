@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhz_blog.provider_mysql.mapper.CommentsMapper">
+    <update id="updateCommentContents" parameterType="ArticleComments">
+        update zhz_blog.article_comments
+        set comment_contents = #{comment_contents}
+        where comment_id = #{comment_id}
+    </update>
+    <update id="updateCommentOwner" parameterType="String">
+        update zhz_blog.article_comments
+        set comment_owner = #{newAccount}
+        where comment_owner = #{account}
+    </update>
+    <select id="selectByArticleID" parameterType="Integer" resultType="ArticleComments">
+        select comment_id, comment_article_id, comment_owner, comment_contents
+        from zhz_blog.article_comments
+        where comment_article_id = #{articleID}
+    </select>
+    <delete id="deleteByAccount" parameterType="String">
+        delete
+        from zhz_blog.article_comments
+        where comment_owner = #{account}
+    </delete>
+    <delete id="deleteByArticleId" parameterType="Integer">
+        delete
+        from zhz_blog.article_comments
+        where comment_article_id = #{articleId}
+    </delete>
+</mapper>

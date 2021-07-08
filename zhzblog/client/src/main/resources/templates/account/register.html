@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>注册页面</title>
+</head>
+<style>
+    div{
+        text-align: center;
+        margin: 400px auto;
+    }
+    body{
+        background-size: auto;
+        background-position: top;
+        background-repeat: round;
+    }
+    input{
+        margin: 5px 5px;
+    }
+</style>
+<body th:style="'background-image:url(images/doggy.jpg)'">
+
+<div>
+    <h1>欢迎您注册ZHZ小博客系统</h1>
+    <h3>
+        <form action="/register" method="get">
+            账号：<input type="text" name="userAccount"  placeholder="请输入您的账号" required><br/>
+            密码：<input type="password" name="userPassword" placeholder="请输入您的密码" required><br/>
+            密码：<input type="password" name="userPassword2" placeholder="请再输入您的密码" required><br/>
+            <p th:text="${callback}"></p>
+            <input type="submit" value="确定">
+            <input type="reset" value="重置">
+        </form>
+    </h3>
+</div>
+
+</body>
+</html>
+

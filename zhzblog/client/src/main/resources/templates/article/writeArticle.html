@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的大作</title>
+</head>
+<style>
+    body{
+        text-align: center;
+    }
+</style>
+<body>
+<img src="/images/duoduo.jpg" style="float: left" height="30%" width="30%">
+<img src="/images/littlerice.jpg" style="float: right" height="30%" width="30%">
+<div>
+    <h3>
+        欢迎用户：<strong th:text="${userAccount}"></strong>请尽情创建您的新博客
+    </h3>
+</div>
+
+<strong th:text="${callback}"></strong><br/>
+<form action="/zhz/writeArticle" method="post">
+    <input type="text" name="articleTitle" placeholder="在此输入您的标题" style="width: 400px" required><br/>
+    <textarea name="articleContent" rows="50" cols="80" th:utext="${content}"></textarea>
+    <input type="submit" value="提交">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改您的账号信息</title>
+</head>
+<style type="text/css">
+    h2,form{
+        text-align: center;
+    }
+    h2{
+        margin-top: 300px;
+    }
+    input{
+        margin: 5px 5px;
+    }
+    body{
+        background-image: url("/images/ice.jpg");
+    }
+</style>
+<body>
+<h2>修改您的账号信息</h2>
+<form action="/zhz/editAccount" method="post">
+    注意：如果不想修改某项，则直接空缺即可。<br/>
+    原账号：<input type="text" th:value="${userAccount}" readonly><br/>
+    新账号：<input type="text" name="newUserAccount"  placeholder="请输入您的新账号"><br/>
+    原密码：<input type="password" name="userPassword" placeholder="请输入您的原始密码"><br/>
+    新密码：<input type="password" name="newUserPassword1" placeholder="请输入您的新密码"><br/>
+    新密码：<input type="password" name="newUserPassword2" placeholder="请再输入您的新密码"><br/>
+    <p th:text="${callback}"></p>
+    <input type="submit" value="确定">
+    <input type="reset" value="重置">
+</form>
+
+</body>
+</html>

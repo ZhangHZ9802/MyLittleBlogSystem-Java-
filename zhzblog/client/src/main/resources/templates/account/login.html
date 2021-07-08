@@ -1,0 +1,39 @@
+ <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>请登录</title>
+</head>
+<style>
+    div{
+        text-align: center;
+        margin: 400px auto;
+    }
+    body{
+        background-size: auto;
+        background-position: top;
+        background-repeat: round;
+    }
+</style>
+<body th:style="'background-image:url(images/doggy.jpg)'">
+
+<div>
+    <h2>请登录</h2>
+    <form action="/login" method="post">
+        账号：<input type="text" name="userAccount" placeholder="请输入您的账号" ><br/>
+        密码：<input type="password" name="userPassword" placeholder="请输入您的密码" ><br/>
+        <p th:text="${callback}"></p>
+        <input type="submit" value="确定">
+        <input type="reset" value="重置">
+    </form>
+
+    <h2>还没有账号？</h2>
+    <form action="/register" method="get">
+        <input type="submit" value="前往注册">
+    </form>
+
+</div>
+
+</body>
+</html>
+

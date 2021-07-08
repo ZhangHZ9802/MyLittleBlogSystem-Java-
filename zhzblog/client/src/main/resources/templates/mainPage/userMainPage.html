@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>欢迎</title>
+    <div>
+        <a href="/zhz/toPublicMain"><input type="button" value="看看大家的博客"></a>
+        <a href="/zhz/writeArticle"><input type="button" value="创作我的新博客"></a>
+        <a href="/zhz/editAccount"><input type="button" value="修改账号信息"></a>
+        <a href="/zhz/logout"><input type="button" value="退出我的账号"></a>
+        <a href="/zhz/deleteAccount"><input type="button" value="删除我的账号"></a>
+    </div>
+</head>
+<style>
+    body {
+        text-align: center;
+        background-size: cover;
+        background-position: top center;
+        background-repeat: repeat-y;
+        background-image: url("/images/ice4.jpg");
+    }
+</style>
+<body>
+
+<h2>欢迎用户<strong th:text="${userAccount}"></strong></h2>
+
+<h3>我的博客：</h3>
+
+<ol>
+    <li th:each="article:${articles}">
+        <form action="/zhz/toArticle" method="get">
+            <strong>标题：</strong><input type="text" th:value="${article.article_name}" size="10" readonly>
+            <strong>作者：</strong><input type="text" th:value="${article.article_owner}" size="6" readonly>
+            <input type="text" name="articleID" th:value="${article.article_id}" hidden>
+            <input type="submit" value="转到文章">
+        </form>
+    </li>
+</ol>
+
+</body>
+</html>
+
