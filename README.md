@@ -5,6 +5,7 @@ An LittleBlogSystem realized by java(SpringBoot)
 访问localhost:8091即可进入博客。
 
 数据库的创建代码如下：
+```sql
 CREATE DATABASE zhz_blog;
 CREATE TABLE user_account(
 	user_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -23,3 +24,4 @@ CREATE TABLE user_articles(
 	article_content TEXT,
 	article_owner VARCHAR(20)
 );
+```
