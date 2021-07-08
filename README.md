@@ -1,7 +1,11 @@
 # MyLittleBlogSystem-Java
 An LittleBlogSystem realized by java(SpringBoot)
 
-该项目是一个基于SpringBoot的小型博客系统。运行该项目需要搭建底层的数据库，运行Redis服务器，和Zookeeper服务器。
+该项目是一个基于SpringBoot的小型博客系统。
+本项目基于SpringBoot、Dubbo、Zookeeper、Redis、MySQL实现了一个分布式博客系统。
+功能包括账号的增删改查、文章的增删改查、文章评论的增删改查、热点文章的存取、文章的点赞等。
+
+运行该项目需要搭建底层的数据库，运行Redis服务器，和Zookeeper服务器。
 首先启动provider-mysql，再启动provider-redis，最后启动客户端client即可正常运行。
 访问localhost:8091即可进入博客。
 
