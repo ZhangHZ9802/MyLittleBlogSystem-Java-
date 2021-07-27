@@ -1,5 +1,5 @@
 # MyLittleBlogSystem-Java
-An LittleBlogSystem realized by java(SpringBoot)
+An LittleBlogSystem realized by java(SpringBoot)（jdk11）
 ### 简介：
 该项目是一个基于SpringBoot的小型博客系统。
 本项目基于SpringBoot、Dubbo、Zookeeper、Redis、MySQL实现了一个分布式博客系统。
