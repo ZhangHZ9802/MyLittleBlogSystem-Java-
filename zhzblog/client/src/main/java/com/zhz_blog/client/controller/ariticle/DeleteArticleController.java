@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 public class DeleteArticleController {
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/deleteArticle")
-    public String deleteArticle(HttpServletRequest request){
+    public String deleteArticle(HttpServletRequest request) {
         mySQLServer.deleteArticle(Integer.valueOf(request.getParameter("articleId")));
         return "redirect:/zhz/toUserMain";
     }

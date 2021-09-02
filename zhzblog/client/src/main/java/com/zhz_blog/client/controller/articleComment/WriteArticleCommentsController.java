@@ -12,13 +12,14 @@ import javax.servlet.http.HttpSession;
 public class WriteArticleCommentsController {
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/writeArticleComment")
-    public String writeArticleComment(HttpServletRequest request, HttpSession session){
+    public String writeArticleComment(HttpServletRequest request, HttpSession session) {
         String userAccount = (String) session.getAttribute("userAccount");
         String articleComments = request.getParameter("articleComments");
         String articleId = request.getParameter("articleId");
-        mySQLServer.createNewArticleComment(userAccount,Integer.valueOf(articleId),articleComments);
-        session.setAttribute("tempArticleId",articleId);
+        mySQLServer.createNewArticleComment(userAccount, Integer.valueOf(articleId), articleComments);
+        session.setAttribute("tempArticleId", articleId);
         return "redirect:/zhz/toArticle";
     }
 }

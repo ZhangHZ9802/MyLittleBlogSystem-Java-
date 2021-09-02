@@ -11,9 +11,10 @@ public class ZhzInterceptorConfiguration implements WebMvcConfigurer {
     //这个方法的名字，就相当于bean标签的id属性
     //这个方法的返回值，就相当于bean标签的class属性
     @Bean
-    public ZhzInterceptor registerInterceptor(){
+    public ZhzInterceptor registerInterceptor() {
         return new ZhzInterceptor();
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(registerInterceptor()).addPathPatterns("/zhz/*");

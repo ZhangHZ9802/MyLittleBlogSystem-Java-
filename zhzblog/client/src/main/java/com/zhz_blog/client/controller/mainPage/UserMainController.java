@@ -14,12 +14,13 @@ import java.util.List;
 public class UserMainController {
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/toUserMain")
-    public String toUserMain(HttpSession session, Model model){
+    public String toUserMain(HttpSession session, Model model) {
         String userAccount = (String) session.getAttribute("userAccount");
         model.addAttribute("userAccount", userAccount);//显示用户名
         List<Article> articles = mySQLServer.getAllArticlesWhitOutContents(userAccount);
-        model.addAttribute("articles",articles);//显示文章
+        model.addAttribute("articles", articles);//显示文章
         return "/mainPage/userMainPage";
     }
 }

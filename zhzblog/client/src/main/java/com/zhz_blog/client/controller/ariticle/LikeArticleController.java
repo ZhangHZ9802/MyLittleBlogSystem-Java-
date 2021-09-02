@@ -16,16 +16,17 @@ public class LikeArticleController {
     private MyRedisServer myRedisServer;
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/likeArticle")
-    public String likeArticle(HttpServletRequest request, Model model, HttpSession session){
+    public String likeArticle(HttpServletRequest request, Model model, HttpSession session) {
         String aid = request.getParameter("articleId");
-        if(aid==null)return "redirect:/zhz/toUserMain";
+        if (aid == null) return "redirect:/zhz/toUserMain";
         int articleId = Integer.parseInt(aid);
         String userAccount = (String) session.getAttribute("userAccount");
         Integer userID = mySQLServer.getUserIDByAccount(userAccount);
         //点赞或取消
-        myRedisServer.likeArticle(userID,articleId);
-        session.setAttribute("tempArticleId",String.valueOf(articleId));
+        myRedisServer.likeArticle(userID, articleId);
+        session.setAttribute("tempArticleId", String.valueOf(articleId));
         return "redirect:/zhz/toArticle";
     }
 }

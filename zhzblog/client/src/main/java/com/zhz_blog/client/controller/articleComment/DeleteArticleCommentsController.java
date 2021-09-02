@@ -12,16 +12,17 @@ import javax.servlet.http.HttpSession;
 public class DeleteArticleCommentsController {
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/deleteArticleComments")
-    public String deleteArticleComments(HttpSession session, HttpServletRequest request){
+    public String deleteArticleComments(HttpSession session, HttpServletRequest request) {
         String commentID = request.getParameter("commentID");
-        if(commentID==null){
+        if (commentID == null) {
             //非法访问
             return "redirect:/zhz/toUserMain";
         }
         String articleID = request.getParameter("articleID");
         mySQLServer.deleteArticleComment(Integer.valueOf(commentID));
-        session.setAttribute("tempArticleId",articleID);
+        session.setAttribute("tempArticleId", articleID);
         return "redirect:/zhz/toArticle";
     }
 }

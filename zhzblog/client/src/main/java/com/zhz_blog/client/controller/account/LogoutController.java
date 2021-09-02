@@ -11,10 +11,11 @@ import javax.servlet.http.HttpSession;
 public class LogoutController {
     @DubboReference
     private MyRedisServer myRedisServer;
+
     @RequestMapping("/zhz/logout")
-    public String logout(HttpSession session){
+    public String logout(HttpSession session) {
         //删除Redis注册，返回欢迎页面
-        myRedisServer.removeAccount((String)session.getAttribute("userAccount"));
+        myRedisServer.removeAccount((String) session.getAttribute("userAccount"));
         //删除session记录
         session.removeAttribute("userAccount");
         return "redirect:/login";

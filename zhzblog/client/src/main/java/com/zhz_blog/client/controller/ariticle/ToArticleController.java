@@ -17,16 +17,17 @@ public class ToArticleController {
     private MySQLServer mySQLServer;
     @DubboReference
     private MyRedisServer myRedisServer;
+
     @RequestMapping("/zhz/toArticle")
-    public String toArticle(HttpSession session, HttpServletRequest request, Model model){
+    public String toArticle(HttpSession session, HttpServletRequest request, Model model) {
         String aID = request.getParameter("articleID");
         //非正常点击文章链接的访问
-        if(aID==null){
+        if (aID == null) {
             String tempArticleId = (String) session.getAttribute("tempArticleId");
-            if (tempArticleId==null){
+            if (tempArticleId == null) {
                 //非法访问
                 return "redirect:/zhz/toUserMain";
-            }else {
+            } else {
                 //从其它地方redirect来会有tempArticleId
                 aID = tempArticleId;
                 session.removeAttribute("tempArticleId");
@@ -34,15 +35,15 @@ public class ToArticleController {
         }
         Integer articleID = Integer.valueOf(aID);
         String userAccount = (String) session.getAttribute("userAccount");
-        model.addAttribute("userAccount",userAccount);
+        model.addAttribute("userAccount", userAccount);
         //获取并显示文章内容
         Article article = mySQLServer.getArticle(articleID);
-        if(article==null)return "redirect:/zhz/toUserMain";//在获取之前文章被删除
+        if (article == null) return "redirect:/zhz/toUserMain";//在获取之前文章被删除
         model.addAttribute("article", article);
         //获取并显示文章获赞数
-        model.addAttribute("countOfLikes",myRedisServer.getArticleLikedCounts(articleID));
+        model.addAttribute("countOfLikes", myRedisServer.getArticleLikedCounts(articleID));
         //获取并显示文章评论内容
-        model.addAttribute("articleComments",mySQLServer.getArticleComments(articleID));
+        model.addAttribute("articleComments", mySQLServer.getArticleComments(articleID));
         return "/article/article";
     }
 }

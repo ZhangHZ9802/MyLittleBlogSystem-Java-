@@ -14,8 +14,9 @@ public class DeleteAccountController {
     private MySQLServer mySQLServer;
     @DubboReference
     private MyRedisServer myRedisServer;
+
     @RequestMapping("/zhz/deleteAccount")
-    public String deleteAccount(HttpSession session){
+    public String deleteAccount(HttpSession session) {
         String userAccount = (String) session.getAttribute("userAccount");
         //删除账号
         mySQLServer.deleteAccount(userAccount);

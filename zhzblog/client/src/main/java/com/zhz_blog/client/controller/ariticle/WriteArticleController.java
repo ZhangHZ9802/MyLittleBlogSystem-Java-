@@ -13,21 +13,22 @@ import javax.servlet.http.HttpSession;
 public class WriteArticleController {
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/writeArticle")
-    public String writeArticle(Model model, HttpSession session, HttpServletRequest request){
+    public String writeArticle(Model model, HttpSession session, HttpServletRequest request) {
         String userAccount = (String) session.getAttribute("userAccount");
-        model.addAttribute("userAccount",userAccount);
+        model.addAttribute("userAccount", userAccount);
         String articleTitle = request.getParameter("articleTitle");
         //还没写或刷新页面时，没有articleTitle
-        if(articleTitle==null)return "/article/writeArticle";
+        if (articleTitle == null) return "/article/writeArticle";
         String articleContent = request.getParameter("articleContent");
         //判断标题是否重复
-        if(mySQLServer.ifArticleTitleRepetitive(userAccount,articleTitle,-1)){
-            model.addAttribute("callback","文章标题重复");
-            model.addAttribute("content",articleContent);
+        if (mySQLServer.ifArticleTitleRepetitive(userAccount, articleTitle, -1)) {
+            model.addAttribute("callback", "文章标题重复");
+            model.addAttribute("content", articleContent);
             return "/article/writeArticle";
         }
-        mySQLServer.createNewArticle(userAccount,articleTitle,articleContent);
+        mySQLServer.createNewArticle(userAccount, articleTitle, articleContent);
         //返回用户主界面
         return "redirect:/zhz/toUserMain";
     }

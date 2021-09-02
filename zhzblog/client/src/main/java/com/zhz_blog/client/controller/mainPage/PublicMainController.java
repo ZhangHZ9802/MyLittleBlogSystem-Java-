@@ -13,10 +13,11 @@ import java.util.List;
 public class PublicMainController {
     @DubboReference
     private MySQLServer mySQLServer;
+
     @RequestMapping("/zhz/toPublicMain")
-    public String toPublicMain(Model model){
+    public String toPublicMain(Model model) {
         List<Article> allArticles = mySQLServer.getAllArticlesWhitOutContents(null);
-        model.addAttribute("articles",allArticles);
+        model.addAttribute("articles", allArticles);
         return "/mainPage/publicMainPage";
     }
 }
