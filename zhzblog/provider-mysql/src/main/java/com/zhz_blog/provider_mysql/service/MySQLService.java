@@ -28,7 +28,7 @@ public class MySQLService implements MySQLServer {
     ArticlesMapper articlesMapper;
     @Autowired
     CommentsMapper commentsMapper;
-    @DubboReference
+    @DubboReference(check = false)
     MyRedisServer myRedisServer;
 
     @Override
@@ -49,6 +49,8 @@ public class MySQLService implements MySQLServer {
     @Override
     @Transactional
     public void deleteAccount(String account) {
+        //删除账号相关点赞消息
+        myRedisServer.deleteLikeByAccount(userAccountMapper.selectUserIDByAccount(account).toString());
         //删除账号信息
         userAccountMapper.deleteAccount(account);
         //删除账户相关文章
@@ -70,7 +72,7 @@ public class MySQLService implements MySQLServer {
             //修改相关文章内容
             articlesMapper.updateArticleOwner(account, newAccount);
             //修改文章评论相关内容
-            commentsMapper.updateCommentOwner(account,newAccount);
+            commentsMapper.updateCommentOwner(account, newAccount);
         }
     }
 
@@ -82,7 +84,7 @@ public class MySQLService implements MySQLServer {
                 result.add(new Article(ua.getArticle_id(), ua.getArticle_name(),
                         null, ua.getArticle_owner()));
             }
-        }else {
+        } else {
             for (UserArticles ua : articlesMapper.getMyArticlesWhitOutContents(account)) {
                 result.add(new Article(ua.getArticle_id(), ua.getArticle_name(),
                         null, account));
@@ -95,11 +97,11 @@ public class MySQLService implements MySQLServer {
     public Article getArticle(Integer articleId) {
         //先从Redis中读取
         Article article = myRedisServer.getArticle(articleId);
-        if (article!=null){
+        if (article != null) {
             return article;
         }
         UserArticles userArticles = articlesMapper.selectByPrimaryKey(articleId);
-        if(userArticles==null)return null;
+        if (userArticles == null) return null;
         article = new Article(articleId, userArticles.getArticle_name(),
                 userArticles.getArticle_content(), userArticles.getArticle_owner());
         //Redis中如果没有则存进Redis
@@ -129,6 +131,9 @@ public class MySQLService implements MySQLServer {
     @Override
     @Transactional
     public void deleteArticle(Integer articleId) {
+        //删除点赞相关信息
+        myRedisServer.deleteLikeByArticleId(articleId);
+        //删除文章
         articlesMapper.deleteByPrimaryKey(articleId);
         //删除文章相关评论
         commentsMapper.deleteByArticleId(articleId);
@@ -137,9 +142,14 @@ public class MySQLService implements MySQLServer {
     }
 
     @Override
+    public List<Integer> getHisAllArticleIDs(Integer userID) {
+        return articlesMapper.getAllAIDs(userID);
+    }
+
+    @Override
     @Transactional
     public void createNewArticleComment(String userAccount, Integer articleId, String articleComments) {
-        if(articlesMapper.getArticleNameById(articleId)!=null){
+        if (articlesMapper.getArticleNameById(articleId) != null) {
             //判断文章是否还存在
             commentsMapper.insert(new ArticleComments(articleId, userAccount, articleComments));
         }

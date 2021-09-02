@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhz_blog.provider_mysql.mapper.UserAccountMapper">
+    <select id="getPassword" resultType="String" parameterType="String">
+        select user_password
+        from zhz_blog.user_account
+        where user_account = #{account}
+    </select>
+    <select id="selectUserIDByAccount" parameterType="String" resultType="Integer">
+        select user_id
+        from zhz_blog.user_account
+        where user_account = #{account}
+    </select>
+    <delete id="deleteAccount" parameterType="String">
+        delete
+        from zhz_blog.user_account
+        where user_account = #{account}
+    </delete>
+    <update id="updateUserAccount" parameterType="String">
+        update zhz_blog.user_account
+        set user_account = #{newAccount}
+        where user_account = #{account}
+    </update>
+    <update id="updateUserPassword" parameterType="String">
+        update zhz_blog.user_account
+        set user_password = #{newPassword}
+        where user_account = #{account}
+    </update>
+
+</mapper>

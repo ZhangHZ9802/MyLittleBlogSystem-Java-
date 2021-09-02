@@ -26,9 +26,10 @@ public class JedisUtils {
         jpc.setMaxTotal(MaxTotal);//最大链接数
         jpc.setMaxIdle(MaxIdle);//最大活动数
         //新建Jedis池
-        jp = new JedisPool(jpc,host,port);
+        jp = new JedisPool(jpc, host, port);
     }
-    public static Jedis getJedis(){
+
+    public static Jedis getJedis() {
         return jp.getResource();
     }
 }

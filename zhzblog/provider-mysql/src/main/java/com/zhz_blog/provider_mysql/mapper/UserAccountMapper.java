@@ -9,8 +9,12 @@ import tk.mybatis.mapper.common.Mapper;
 @Component
 public interface UserAccountMapper extends Mapper<UserAccount> {
     String getPassword(String account);
+
     void deleteAccount(String account);
-    void updateUserAccount(String account,String newAccount);
-    void updateUserPassword(String account,String newPassword);
+
+    void updateUserAccount(String account, String newAccount);
+
+    void updateUserPassword(String account, String newPassword);
+
     Integer selectUserIDByAccount(String account);
 }

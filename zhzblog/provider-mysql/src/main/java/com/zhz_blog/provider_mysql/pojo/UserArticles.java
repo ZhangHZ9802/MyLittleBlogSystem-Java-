@@ -20,7 +20,7 @@ public class UserArticles {
     private String article_content;
     private String article_owner;
 
-    public UserArticles(String name, String content, String owner){
+    public UserArticles(String name, String content, String owner) {
         article_name = name;
         article_content = content;
         article_owner = owner;

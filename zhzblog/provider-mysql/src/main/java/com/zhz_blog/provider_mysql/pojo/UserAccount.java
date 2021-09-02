@@ -19,7 +19,7 @@ public class UserAccount {
     private String user_account;
     private String user_password;
 
-    public UserAccount(String user_account,String user_password){
+    public UserAccount(String user_account, String user_password) {
         this.user_account = user_account;
         this.user_password = user_password;
     }

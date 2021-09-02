@@ -10,10 +10,18 @@ import java.util.List;
 @Component
 public interface ArticlesMapper extends Mapper<UserArticles> {
     List<UserArticles> getMyArticlesWhitOutContents(String account);
+
     List<UserArticles> getAllArticlesWhitOutContents();
+
     void deleteByAccount(String account);
-    void updateArticleOwner(String account,String newAccount);
-    Integer getArticleIdByOwnerAndTitle(String account,String articleName);
+
+    void updateArticleOwner(String account, String newAccount);
+
+    Integer getArticleIdByOwnerAndTitle(String account, String articleName);
+
     void updateArticleByArticleId(UserArticles userArticles);
+
     String getArticleNameById(Integer articleId);
+
+    List<Integer> getAllAIDs(Integer userID);
 }

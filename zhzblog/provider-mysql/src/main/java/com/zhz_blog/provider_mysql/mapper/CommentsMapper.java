@@ -10,8 +10,12 @@ import java.util.List;
 @Component
 public interface CommentsMapper extends Mapper<ArticleComments> {
     void updateCommentContents(ArticleComments articleComments);
+
     List<ArticleComments> selectByArticleID(Integer articleID);
+
     void deleteByAccount(String account);
-    void updateCommentOwner(String account,String newAccount);
+
+    void updateCommentOwner(String account, String newAccount);
+
     void deleteByArticleId(Integer articleId);
 }

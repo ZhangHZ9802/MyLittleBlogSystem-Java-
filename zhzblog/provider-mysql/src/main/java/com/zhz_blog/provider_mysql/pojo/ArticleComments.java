@@ -7,6 +7,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.*;
 
 @Table(name = "article_comments")
 @Data
@@ -24,5 +25,6 @@ public class ArticleComments {
         this.comment_article_id = comment_article_id;
         this.comment_owner = comment_owner;
         this.comment_contents = comment_contents;
+
     }
 }

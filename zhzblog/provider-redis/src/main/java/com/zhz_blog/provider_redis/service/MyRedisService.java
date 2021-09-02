@@ -1,18 +1,25 @@
 package com.zhz_blog.provider_redis.service;
 
 import com.zhz_blog.api.service.MyRedisServer;
+import com.zhz_blog.api.service.MySQLServer;
 import com.zhz_blog.common.commonClass.Article;
 import com.zhz_blog.provider_redis.utils.JedisUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @DubboService
 @Service
 public class MyRedisService implements MyRedisServer {
+    @DubboReference(check = false)
+    MySQLServer mySQLServer;
+
     private final Jedis jedis = JedisUtils.getJedis();
 
     @Override
@@ -99,34 +106,37 @@ public class MyRedisService implements MyRedisServer {
         jedis.del("hotArticle:" + articleID.toString());
     }
 
-//    @Override
-//    public void deleteLikeByAccount(String account) {
-//        Set<String> likeArticles = jedis.smembers(account + ":likedArticle");
-//        //删除该账号所有喜欢的文章记录
-//        jedis.del(account + ":likedArticle");
-//        for (String articleID : likeArticles) {
-//            //所有点赞过的文章的喜欢数减少
-//            jedis.hincrBy("article:like:counts", articleID, -1L);
-//        }
-//        //获取自己所有文章的id
-//        //依据文章的id删除所有文章的点赞,以及所有点过赞的人
-//    }
+    @Override
+    public void deleteLikeByAccount(String uID) {
+        //获取该用户喜欢过的文章
+        Set<String> likedArticles = jedis.smembers(uID + ":likedArticle");
+        //删除该账号所有喜欢的文章记录
+        jedis.del(uID + ":likedArticle");
+        //所有点赞过的文章的喜欢数减少
+        for (String articleID : likedArticles) {
+            jedis.hincrBy("article:like:counts", articleID, -1L);
+        }
+        //获取该用户自己的所有文章id
+        List<Integer> aIDs = mySQLServer.getHisAllArticleIDs(Integer.parseInt(uID));
+        //依据文章的id删除所有文章的点赞,以及所有点过赞的人
+        for(int aID:aIDs){
+            deleteLikeByArticleId(aID);
+        }
+    }
 
-//    @Override
-//    public void updateLikeOwner(String account, String newAccount) {
-//        Set<String> articleIDs = jedis.smembers(account + ":likedArticle");
-//        jedis.renamenx(account + ":likedArticle", newAccount + ":likedArticle");
-//        for(String articleID:articleIDs){
-//            jedis.srem(articleID+ ":likedBy",account);
-//            jedis.sadd(articleID+ ":likedBy",newAccount);
-//        }
-//    }
 
-//    @Override
-//    public void deleteLikeByArticleId(Integer articleId) {
-//        String aID = articleId.toString();
-//        //删除文章相关点赞数
-//        jedis.hdel("article:like:counts", aID);
-//        //依据文章的id删除所有文章的点赞,以及所有点过赞的人
-//    }
+    @Override
+    //文章被删除后，需要删除与文章关联的点赞
+    public void deleteLikeByArticleId(Integer articleId) {
+        String aID = articleId.toString();
+        //删除文章相关点赞数
+        jedis.hdel("article:like:counts", aID);
+        //获取点赞过文章的人的id，删除他们的点赞消息
+        Set<String> userIDs = jedis.smembers(aID + ":likedBy");
+        for (String uID : userIDs) {
+            jedis.srem(uID + ":likedArticle", aID);
+        }
+        //删除文章被喜欢的人的集合
+        jedis.del(aID + ":likedBy");
+    }
 }
